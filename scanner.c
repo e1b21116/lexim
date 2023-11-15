@@ -15,6 +15,8 @@ int main(int argc,char *argv[]){
 	char repeat[7]="repeat";
 	char *option="-d";
 	int length = 0;
+	int flag_lper=0;
+	int flag_rper=0;
 	int flag_debag=0;
 	int flag_period=0;
 	int flag_dq=0;
@@ -142,8 +144,10 @@ int main(int argc,char *argv[]){
 				printf("%d\t16\tTK_PERCENT\t%c\n",line,c);
 			}else if(c=='('){
 				printf("%d\t17\tTK_L_PER\t%c\n",line,c);
+				flag_lper++;
 			}else if(c==')'){
 				printf("%d\t18\tTK_R_PER\t%c\n",line,c);
+				flag_rper++;
 			}else if(c==';'){
 				printf("%d\t19\tTK_SEMICOLON\t%c\n",line,c);
 			}else if(c==','){
@@ -153,6 +157,12 @@ int main(int argc,char *argv[]){
 			}
 
 			if(c=='\n'){
+				if(flag_lper!=flag_rper){
+					fprintf(stderr,"()が対応していません(line: %d)\n",line);
+					exit(1);
+				}
+				flag_lper=0;
+				flag_rper=0;
 				line++;
 			}
 
@@ -262,8 +272,10 @@ int main(int argc,char *argv[]){
 				printf("16\n");
 			}else if(c=='('){
 				printf("17\n");
+				flag_lper++;
 			}else if(c==')'){
 				printf("18\n");
+				flag_rper++;
 			}else if(c==';'){
 				printf("19\n");
 			}else if(c==','){
@@ -272,7 +284,15 @@ int main(int argc,char *argv[]){
 				printf("21\n");
 			}
 
-			
+			if(c=='\n'){
+				if(flag_lper!=flag_rper){
+					fprintf(stderr,"()が対応していません(line: %d)\n",line);
+					exit(1);
+				}
+				flag_lper=0;
+				flag_rper=0;
+				line++;
+			}
 
 			while(length>=0){
 				word[length--]='\0';
