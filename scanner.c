@@ -84,7 +84,7 @@ int main(int argc,char *argv[]){
 						flag_period++;
 					}
 					if(flag_period==2){
-						fprintf(stderr,"\n数値に間違いがあります\n");
+						fprintf(stderr,"数値に間違いがあります(line: %d)\n",line);
 						exit(1);
 					}
 					word[length++]=c;
@@ -106,7 +106,11 @@ int main(int argc,char *argv[]){
 					word[length++]=c;
 					c=fgetc(fp);
 					if(c==EOF){
-						fprintf(stderr,"文字列が閉じていません\n");
+						fprintf(stderr,"文字列が終了していません(line: %d)\n",line);
+						exit(1);
+					}
+					if(c=='\n'){
+						fprintf(stderr,"文字列が終了していません(line: %d)\n",line);
 						exit(1);
 					}
 					
@@ -200,7 +204,7 @@ int main(int argc,char *argv[]){
 						flag_period++;
 					}
 					if(flag_period==2){
-						fprintf(stderr,"\n数値に間違いがあります\n");
+						fprintf(stderr,"数値に間違いがあります(line: %d)\n",line);
 						exit(1);
 					}
 					word[length++]=c;
@@ -222,11 +226,17 @@ int main(int argc,char *argv[]){
 					word[length++]=c;
 					c=fgetc(fp);
 					if(c==EOF){
-						fprintf(stderr,"文字列が閉じていません\n");
+						fprintf(stderr,"文字列が終了していません(line: %d)\n",line);
 						exit(1);
 					}
-					word[length]='\0';
+					if(c=='\n'){
+						fprintf(stderr,"文字列が終了していません(line: %d)\n",line);
+						exit(1);
+					}
+					
 				}
+
+				word[length]='\0';
 
 				printf("11\n");
 
