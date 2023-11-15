@@ -18,7 +18,7 @@ int main(int argc,char *argv[]){
 	int flag_debag=0;
 	int flag_period=0;
 	int flag_dq=0;
-	int flag_line;
+	int flag_line=0;
 	int line=1;
 	int c;
 
@@ -60,19 +60,19 @@ int main(int argc,char *argv[]){
 
 
 				if(strcmp(word,var)==0){
-					printf("2\tTK_VAR\t\t%s\n",word);
+					printf("%d\t2\tTK_VAR\t\t%s\n",line,word);
 				}else if(strcmp(word,read)==0){
-					printf("3\tTK_READ\t\t%s\n",word);
+					printf("%d\t3\tTK_READ\t\t%s\n",line,word);
 				}else if(strcmp(word,print)==0){
-					printf("4\tTK_PRINT\t%s\n",word);
+					printf("%d\t4\tTK_PRINT\t%s\n",line,word);
 				}else if(strcmp(word,println)==0){
-					printf("5\tTK_PRINTLN\t%s\n",word);
+					printf("%d\t5\tTK_PRINTLN\t%s\n",line,word);
 				}else if(strcmp(word,div)==0){
-					printf("6\tTK_DIV\t%s\n",word);
+					printf("%d\t6\tTK_DIV\t%s\n",line,word);
 				}else if(strcmp(word,repeat)==0){
-					printf("7\tTK_REPEAT\t%s\n",word);
+					printf("%d\t7\tTK_REPEAT\t%s\n",line,word);
 				}else{
-					printf("1\tTK_IDENTIFIER\t%s\n",word);
+					printf("%d\t1\tTK_IDENTIFIER\t%s\n",line,word);
 				}
 
 				
@@ -95,8 +95,8 @@ int main(int argc,char *argv[]){
 				ungetc(c,fp);
 
 
-				if(flag_period==0) printf("9\tTK_INTEGER\t%s\n",word);
-				if(flag_period==1) printf("10\tTK_DOUBLE\t%s\n",word);
+				if(flag_period==0) printf("%d\t9\tTK_INTEGER\t%s\n",line,word);
+				if(flag_period==1) printf("%d\t10\tTK_DOUBLE\t%s\n",line,word);
 
 				flag_period=0;
 
@@ -114,7 +114,7 @@ int main(int argc,char *argv[]){
 
 				word[length]='\0';
 
-				printf("11\tTK_STRING\t%s\n",word);
+				printf("%d\t11\tTK_STRING\t%s\n",line,word);
 
 				
 			}else if(c==':'){
@@ -122,33 +122,35 @@ int main(int argc,char *argv[]){
 				if((c=fgetc(fp))=='='){
 					word[length++]=c;
 					word[length]='\0';
-					printf("22\tTK_COLON_EQUAL\t%s\n",word);
+					printf("%d\t22\tTK_COLON_EQUAL\t%s\n",line,word);
 				}else{
 					ungetc(c,fp);
 				}
 			}else if(c=='+'){
-				printf("12\tTK_PLUS\t\t%c\n",c);
+				printf("%d\t12\tTK_PLUS\t\t%c\n",line,c);
 			}else if(c=='-'){
-				printf("13\tTK_MINUS\t%c\n",c);
+				printf("%d\t13\tTK_MINUS\t%c\n",line,c);
 			}else if(c=='*'){
-				printf("14\tTK_ASTERRISK\t%c\n",c);
+				printf("%d\t14\tTK_ASTERRISK\t%c\n",line,c);
 			}else if(c=='/'){
-				printf("15\tTK_SLASH\t%c\n",c);
+				printf("%d\t15\tTK_SLASH\t%c\n",line,c);
 			}else if(c=='%'){
-				printf("16\tTK_PERCENT\t%c\n",c);
+				printf("%d\t16\tTK_PERCENT\t%c\n",line,c);
 			}else if(c=='('){
-				printf("17\tTK_L_PER\t%c\n",c);
+				printf("%d\t17\tTK_L_PER\t%c\n",line,c);
 			}else if(c==')'){
-				printf("18\tTK_R_PER\t%c\n",c);
+				printf("%d\t18\tTK_R_PER\t%c\n",line,c);
 			}else if(c==';'){
-				printf("19\tTK_SEMICOLON\t%c\n",c);
+				printf("%d\t19\tTK_SEMICOLON\t%c\n",line,c);
 			}else if(c==','){
-				printf("20\tTK_COMMA\t%c\n",c);
+				printf("%d\t20\tTK_COMMA\t%c\n",line,c);
 			}else if(c=='@'){
-				printf("21\tTK_AT\t\t%c\n",c);
+				printf("%d\t21\tTK_AT\t\t%c\n",line,c);
 			}
 
-			
+			if(c=='\n'){
+				line++;
+			}
 
 			while(length>=0){
 				word[length--]='\0';
